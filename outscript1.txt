@@ -1,0 +1,107 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW DATABASES
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| flip5              |
+| flipped4db         |
+| mysql              |
+| nhlgame            |
+| performance_schema |
+| vetoffice          |
+| ywu897assign2db    |
++--------------------+
+8 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS ywu897assign2db
+--------------
+
+Query OK, 2 rows affected (0.81 sec)
+
+--------------
+CREATE DATABASE ywu897assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+GRANT USAGE ON *.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP USER 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT ALL
+PRIVILEGES ON yourwesternuseridassign2db.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE westerncourse (westernnum CHAR(6) NOT NULL, westernname VARCHAR(50) NOT NULL, weight DECIMAL(2,1) NOT NULL, suffix VARCHAR(3), PRIMARY KEY(westernnum))
+--------------
+
+Query OK, 0 rows affected (1.03 sec)
+
+--------------
+CREATE TABLE university (uniid TINYINT NOT NULL, uniname VARCHAR(50), city VARCHAR(20) NOT NULL, prov CHAR(2) NOT NULL, nickname VARCHAR(20) NOT NULL, PRIMARY KEY(uniid))
+--------------
+
+Query OK, 0 rows affected (0.90 sec)
+
+--------------
+CREATE TABLE outsidecourse (outsidenum CHAR(10) NOT NULL, outsidename VARCHAR(50) NOT NULL, whichyear TINYINT NOT NULL, weight DECIMAL(2,1) NOT NULL, uniid TINYINT NOT NULL, FOREIGN KEY (uniid) REFERENCES university(uniid), PRIMARY KEY (outsidenum, uniid))
+--------------
+
+Query OK, 0 rows affected (0.94 sec)
+
+--------------
+CREATE TABLE equivalentto (westernnum CHAR(6) NOT NULL, FOREIGN KEY(westernnum) REFERENCES westerncourse(westernnum) ON DELETE CASCADE, outsidenum CHAR(10) NOT NULL, FOREIGN KEY (outsidenum, uniid) REFERENCES outsidecourse(outsidenum, uniid) ON DELETE CASCADE, uniid TINYINT NOT NULL,  evaluateddate DATE NOT NULL, PRIMARY KEY (westernnum, outsidenum, uniid))
+--------------
+
+Query OK, 0 rows affected (0.61 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++---------------------------+
+| Tables_in_ywu897assign2db |
++---------------------------+
+| equivalentto              |
+| outsidecourse             |
+| university                |
+| westerncourse             |
++---------------------------+
+4 rows in set (0.00 sec)
+
+Bye
